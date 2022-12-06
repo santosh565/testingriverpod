@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-
-final counterProvider = StateNotifierProvider<Counter, int>((ref) {
-  return Counter();
-});
-
-class Counter extends StateNotifier<int> {
-  Counter() : super(0);
-  void increment() => state++;
-}
+final currentDate = Provider<DateTime>(((ref) => DateTime.now()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -22,41 +14,36 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      darkTheme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
+      // themeMode: ThemeMode.light,
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends ConsumerWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(counterProvider);
+    final date = ref.watch(currentDate);
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(date.toIso8601String()),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
+          children: const <Widget>[
+            Text(
               'You have pushed the button this many times:',
             ),
-            Text('$count'),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref.read(counterProvider.notifier).increment();
-        },
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
