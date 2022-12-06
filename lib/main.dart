@@ -5,29 +5,6 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final currentDate = Provider<DateTime>(((ref) => DateTime.now()));
-
-class Counter extends StateNotifier<int> {
-  Counter(super.state);
-  void increment() => state++;
-}
-
-class NewCounter extends StateNotifier<int> {
-  NewCounter(super.state);
-  void increment() {
-    debugPrint('date time increment');
-    state++;
-  }
-}
-
-final dateProvider = StateNotifierProvider<NewCounter, int>(((ref) {
-  return NewCounter(1);
-}));
-
-final counterProvider = StateNotifierProvider<Counter, int>(((ref) {
-  return Counter(0);
-}));
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -50,30 +27,17 @@ class MyHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('build');
     return Scaffold(
-      appBar: AppBar(title: Consumer(builder: (context, ref, child) {
-        final date = ref.watch(dateProvider);
-        return Text(date.toString());
-      })),
+      appBar: AppBar(title: const Text('Weather')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Consumer(
-              builder: (context, ref, child) {
-                final count = ref.watch(counterProvider);
-                return Text(
-                  'You have pushed the button this many times: $count',
-                );
-              },
-            )
+          children: const <Widget>[
+            Text('Weather'),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          ref.read(counterProvider.notifier).increment();
-          ref.read(dateProvider.notifier).increment();
-        }),
+        onPressed: (() {}),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
