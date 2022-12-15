@@ -112,7 +112,7 @@ class FilmsWidget extends ConsumerWidget {
   }
 }
 
-@immutable
+// @immutable
 class Film extends Equatable {
   final String id, title, description;
   final bool isFavourite;
