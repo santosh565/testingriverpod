@@ -6,6 +6,8 @@ import 'package:riverpod_demo/state/posts/typedefs/user_id.dart';
 import '../models/auth_result.dart';
 
 class Authenticator {
+  const Authenticator();
+
   User? get currentUser => FirebaseAuth.instance.currentUser;
 
   UserId? get userId => currentUser?.uid;
